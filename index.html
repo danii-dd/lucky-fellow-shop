@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Сток и оригинальная одежда из Европы. Доставка из Санкт-Петербурга по всей России.">
+<title>LUCKY FELLOW II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#FBFBF9; --surface:#FFFFFF; --ink:#16181C; --muted:#6E7177;
+  --line:#E6E5E0; --accent:#124559; --on-accent:#FFFFFF; --chip:#F1F0EB;
+  --shadow:0 1px 2px rgba(20,22,26,.06),0 8px 24px rgba(20,22,26,.05);
+  --display:"Oswald","Helvetica Neue",Arial,sans-serif;
+  --body:"Golos Text","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#121316; --surface:#1A1C20; --ink:#E9EAEC; --muted:#9A9DA4;
+    --line:#2B2E34; --accent:#6FB3D2; --on-accent:#0E1A20; --chip:#24272D;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121316; --surface:#1A1C20; --ink:#E9EAEC; --muted:#9A9DA4;
+  --line:#2B2E34; --accent:#6FB3D2; --on-accent:#0E1A20; --chip:#24272D;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+     font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);
+     border-bottom:1px solid var(--line)}
+.bar__in{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:12px;
+         display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:.06em;
+      text-transform:uppercase;white-space:nowrap}
+.logo span{color:var(--accent)}
+.city{font-size:12px;color:var(--muted);white-space:nowrap}
+.search{flex:1;min-width:190px;padding:9px 13px;border:1px solid var(--line);border-radius:3px;
+        background:var(--ground);color:var(--ink);font-size:14px}
+.search:focus{outline:2px solid var(--accent);outline-offset:-1px}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:22px 64px}
+.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.chip{padding:6px 13px;border:1px solid var(--line);background:var(--chip);border-radius:999px;
+      font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.chip b{font-weight:500;opacity:.65;margin-left:5px;font-size:11.5px}
+.sort{margin-left:auto;padding:7px 11px;border:1px solid var(--line);border-radius:3px;
+      background:var(--surface);color:var(--ink);font-size:13px}
+.count{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(204px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;
+      cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;border-width:1px;
+      transition:box-shadow .16s,transform .16s}
+.card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card__ph{aspect-ratio:1;background:var(--chip);overflow:hidden}
+.card__ph img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.card:hover .card__ph img{transform:scale(1.04)}
+.card__b{padding:11px 13px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card__n{font-size:13.5px;line-height:1.38;flex:1}
+.card__r{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.price{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:.01em;
+       font-variant-numeric:tabular-nums;white-space:nowrap}
+.size{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:1px 6px;border-radius:2px;
+      white-space:nowrap}
+
+.empty{padding:50px 0;text-align:center;color:var(--muted);grid-column:1/-1}
+
+.hero{background:var(--surface);border-bottom:1px solid var(--line)}
+.hero__in{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:18px}
+.hero p{margin:0;color:var(--muted);font-size:13.5px;max-width:58ch}
+.hero b{color:var(--ink);font-weight:500}
+
+/* карточка товара */
+.detail{max-width:1180px;margin:0 auto;padding-inline:18px;padding-block:22px 64px}
+.back{display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:var(--muted);
+      font-size:14px;cursor:pointer;padding:6px 0;margin-bottom:16px}
+.back:hover{color:var(--ink)}
+.back:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.dcols{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:34px;align-items:start}
+.gal{display:flex;flex-direction:column;gap:11px}
+.gal__main{background:var(--chip);border:1px solid var(--line);border-radius:4px;overflow:hidden;
+           aspect-ratio:1}
+.gal__main img{width:100%;height:100%;object-fit:cover}
+.gal__row{display:flex;gap:9px}
+.gal__t{width:74px;height:74px;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+        padding:0;background:none;cursor:pointer}
+.gal__t[aria-pressed="true"]{border-color:var(--accent);border-width:2px}
+.gal__t img{width:100%;height:100%;object-fit:cover}
+.dh{font-family:var(--display);font-weight:500;font-size:clamp(21px,3.2vw,27px);line-height:1.2;
+    margin:0 0 12px;text-wrap:balance}
+.dprice{font-family:var(--display);font-weight:600;font-size:31px;margin:0 0 16px;
+        font-variant-numeric:tabular-nums}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.cta{display:inline-block;background:var(--accent);color:var(--on-accent);text-decoration:none;
+     padding:13px 26px;border-radius:3px;font-size:15px;font-weight:500;margin-bottom:8px}
+.cta:hover{opacity:.9}
+.hint{font-size:12px;color:var(--muted);margin:0 0 22px}
+.dsec{border-top:1px solid var(--line);padding-top:16px}
+.dsec h3{font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.08em;
+         text-transform:uppercase;color:var(--muted);margin:0 0 9px}
+.dtext{white-space:pre-wrap;font-size:14.5px;line-height:1.6;margin:0}
+.orig{font-size:12.5px;color:var(--muted);margin-top:16px}
+.orig a{color:var(--muted)}
+
+.foot{max-width:1180px;margin:0 auto;padding:22px 18px 44px;border-top:1px solid var(--line);
+      color:var(--muted);font-size:12.5px}
+.foot b{color:var(--ink);font-weight:500}
+
+@media (max-width:860px){
+  .dcols{grid-template-columns:1fr;gap:22px}
+}
+@media (max-width:620px){
+  .bar__in{padding-inline:13px;padding-block:10px;gap:9px}
+  .logo{font-size:18px}
+  .city{display:none}
+  .search{min-width:100%;order:3;font-size:16px}
+  .hero__in{padding-inline:13px;padding-block:13px}
+  .hero p{font-size:12.5px}
+  .wrap,.detail{padding-inline:13px;padding-block:16px 48px}
+  .tools{gap:7px;margin-bottom:14px}
+  .chip{padding:5px 11px;font-size:12.5px}
+  .sort{margin-left:0;width:100%;font-size:13px}
+  .count{margin-bottom:11px}
+
+  .grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .card__b{padding:9px 10px 11px;gap:5px}
+  .card__n{font-size:12.5px;line-height:1.32}
+  .card__r{flex-direction:column;align-items:flex-start;gap:4px}
+  .price{font-size:16px}
+  .size{font-size:10px;padding:1px 5px}
+
+  .back{position:sticky;top:calc(env(safe-area-inset-top,0px) + 54px);z-index:15;
+        background:var(--ground);width:100%;padding:10px 0;margin-bottom:10px}
+  .gal__t{width:60px;height:60px}
+  .dprice{font-size:26px}
+  .cta{display:block;text-align:center;padding:14px 20px}
+  .foot{padding-inline:13px}
+}
+@media (max-width:360px){
+  .grid{gap:9px}
+  .card__n{font-size:11.5px}
+}
+</style>
+
+</head>
+<body>
+<header class="bar"><div class="bar__in">
+  <div class="logo">Lucky <span>Fellow</span> II</div>
+  <div class="city">Санкт-Петербург · отправка по России</div>
+  <input id="q" class="search" type="search" placeholder="Поиск по каталогу: бренд, модель, размер" aria-label="Поиск">
+</div></header>
+
+<div class="hero"><div class="hero__in">
+  <p><b>Сток и оригинальная одежда из Европы.</b> Рубашки, брюки, верх — размеры от S до 7XL.
+     Отправка из Санкт-Петербурга: Авито Доставка, СДЭК, Почта, Boxberry, Яндекс.</p>
+</div></div>
+
+<main id="cat" class="wrap">
+  <div class="tools">
+    <button class="chip" type="button" data-b="M" aria-pressed="false">M<b>10</b></button><button class="chip" type="button" data-b="L" aria-pressed="false">L<b>22</b></button><button class="chip" type="button" data-b="XL" aria-pressed="false">XL<b>12</b></button><button class="chip" type="button" data-b="2XL+" aria-pressed="false">2XL+<b>6</b></button><button class="chip" type="button" data-b="брюки W" aria-pressed="false">брюки W<b>8</b></button><button class="chip" type="button" data-b="составной" aria-pressed="false">составной<b>11</b></button><button class="chip" type="button" data-b="без размера" aria-pressed="false">без размера<b>3</b></button>
+    <select id="sort" class="sort" aria-label="Сортировка">
+      <option value="name">по названию</option>
+      <option value="asc">сначала дешёвые</option>
+      <option value="desc">сначала дорогие</option>
+    </select>
+  </div>
+  <p id="cnt" class="count"></p>
+  <div id="grid" class="grid"></div>
+</main>
+
+<div id="det" class="detail" hidden>
+  <button id="back" class="back" type="button">← Назад в каталог</button>
+  <div class="dcols">
+    <div class="gal">
+      <div class="gal__main"><img id="dmain" src="" alt=""></div>
+      <div id="drow" class="gal__row"></div>
+    </div>
+    <div>
+      <h1 id="dh" class="dh"></h1>
+      <p id="dprice" class="dprice"></p>
+      <div id="dmeta" class="meta"></div>
+      <a class="cta" href="#" id="dcta">Написать продавцу</a>
+      <p class="hint">В рабочей версии кнопка ведёт в WhatsApp или Telegram магазина.</p>
+      <div class="dsec">
+        <h3>Описание</h3>
+        <p id="dtext" class="dtext"></p>
+      </div>
+      <p class="orig">Это объявление на Авито: <a id="dorig" href="#" target="_blank" rel="noopener">открыть оригинал</a></p>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <b>Демонстрационная витрина</b>
+</footer>
+
+<script>
+const G = [{"id": 8246114764, "n": "Брюки мужские Dockers ориг W33/34", "p": 1450, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Смс перед оформлением!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nБрюки мужские Dockers оригинал размер W33/34 состояние очень хорошее, строчк...", "s": "W33", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_muzhskie_dockers_orig_w3334_8246114764", "ph": ["img/8246114764_1.jpg", "img/8246114764_2.jpg"]}, {"id": 8181985390, "n": "Брюки мужские Petrol Industries ориг W36/34", "p": 1650, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Смс перед оформлением!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\n! Серо-голубые!\n\nДжинсы мужские Petrol Industries оригинал размер W36/34 сос...", "s": "W36", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_muzhskie_petrol_industries_orig_w3634_8181985390", "ph": ["img/8181985390_1.jpg", "img/8181985390_2.jpg"]}, {"id": 8246747048, "n": "Брюки мужские Tom Tailor выс. рост W34/34", "p": 1650, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Смс перед оформлением!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nБрюки мужские Tom Tailor оригинал размер W34/34 состояние очень хорошее, стр...", "s": "W34", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_muzhskie_tom_tailor_vys._rost_w3434_8246747048", "ph": ["img/8246747048_1.jpg", "img/8246747048_2.jpg"]}, {"id": 8374122690, "n": "Брюки слаксы мужские Brax оригинал XL", "p": 1650, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление!\n\nОтправляем! Пункт Ав, Почта, сдэк, Dpd, 5post, яндекс!\n\nБрюки слаксы мужские Brax оригинал размер XL состояние очень хорошее, строчки и швы в ровные и качественные, н...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_slaksy_muzhskie_brax_original_xl_8374122690", "ph": ["img/8374122690_1.jpg", "img/8374122690_2.jpg"]}, {"id": 8419435649, "n": "Брюки сток мужские Pioneer оригинал W33", "p": 1850, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Смс перед оформлением!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nДжинсы мужские Pioneer оригинал размер W33 состояние новые, строчки и швы в ...", "s": "W33", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_stok_muzhskie_pioneer_original_w33_8419435649", "ph": ["img/8419435649_1.jpg", "img/8419435649_2.jpg"]}, {"id": 8342493148, "n": "Брюки сток спорт Fila ориг W(42/32)", "p": 1800, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Смс перед оформлением!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\n! Бирок нет!\n\nБрюки мужские спорт Fila оригинал размер W42/32 состояние новы...", "s": "", "b": "без размера", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/bryuki_stok_sport_fila_orig_w4232_8342493148", "ph": ["img/8342493148_1.jpg", "img/8342493148_2.jpg"]}, {"id": 8427678918, "n": "Джинсы женские Dsquared2 оригинал W32", "p": 1000, "d": "Оригинальные Размеры На Фото! Интернет Магазин! Заходите! Переоформление! Перед покупкой смс.\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nДжинсы женские dsquared2 оригинал размер W32 состояние очень хорошие, строчки и швы ровн...", "s": "W32", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/dzhinsy_zhenskie_dsquared2_original_w32_8427678918", "ph": ["img/8427678918_1.jpg", "img/8427678918_2.jpg"]}, {"id": 8545320159, "n": "Куртка бомбер сток выс.рост JB's Wear 6/7XL", "p": 7000, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\n! Бирок нет! Добротная, очень плотная, со стеганным подкладом и утеплителе...", "s": "7XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/kurtka_bomber_stok_vys.rost_jbs_wear_67xl_8545320159", "ph": ["img/8545320159_1.jpg", "img/8545320159_2.jpg"]}, {"id": 8246263430, "n": "Рубашка вискоза49% мужская Carbon ориг L/XL(43/44)", "p": 1000, "d": "Перед покупкой Cmc Carbon.\n\nПриталенный силуэт.\n\nВ груди 59 см.\n\nПлечи 48,5 см.\n\nРукав 22 см.\n\nТалия 58 см (размер в районе 2/3пуговицы).\n\nДлина по спине 76 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Пи...", "s": "L/XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_viskoza49_muzhskaya_carbon_orig_lxl4344_8246263430", "ph": ["img/8246263430_1.jpg", "img/8246263430_2.jpg"]}, {"id": 8386514100, "n": "Рубашка выс. рост мужская Next оригинал 2XL(45/46)", "p": 1650, "d": "Перед покупкой Cmc Next!\n\n! Супер мягкая и тактильно приятная!\n\nПриталенный силуэт.\n\nВ груди 69,5 см.\n\nПлечи 53 см.\n\nРукав 71 см.\n\nТалия 66 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходит...", "s": "2XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_vys._rost_muzhskaya_next_original_2xl4546_8386514100", "ph": ["img/8386514100_1.jpg", "img/8386514100_2.jpg"]}, {"id": 7894646054, "n": "Рубашка куртка флис мужская H&M XL/2XL", "p": 1550, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой.\n\nCmcнатуральные Размеры На.\n\nФото! И описании пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Н&М оригинал размер XL-2XL состояние рубашки мужской оч...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_kurtka_flis_muzhskaya_hm_xl2xl_7894646054", "ph": ["img/7894646054_1.jpg", "img/7894646054_2.jpg"]}, {"id": 8182158966, "n": "Рубашка лен100% мужская Daniel Hechter ориг XL(43)", "p": 1350, "d": "Перед покупкой Cmc Daniel Hechter.\n\nПриталенный силуэт.\n\nВ груди 66 см.\n\nПлечи 52 см.\n\nРукав 26 см.\n\nТалия 64,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 83,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгр...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_len100_muzhskaya_daniel_hechter_orig_xl43_8182158966", "ph": ["img/8182158966_1.jpg", "img/8182158966_2.jpg"]}, {"id": 8246614402, "n": "Рубашка мужская Atlas for Men ориг L(41)", "p": 1200, "d": "Перед покупкой Cmc Atlas for Men.\n\nПриталенный силуэт.\n\nВ груди 58 см.\n\nПлечи 49 см.\n\nРукав 23,5 см.\n\nТалия 56,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 73,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отг...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_atlas_for_men_orig_l41_8246614402", "ph": ["img/8246614402_1.jpg", "img/8246614402_2.jpg"]}, {"id": 8246761080, "n": "Рубашка мужская Basefield ориг 3XL(47/48)", "p": 1550, "d": "Перед покупкой Cmc Basefield.\n\nПриталенный силуэт.\n\nВ груди 71,5 см.\n\nПлечи 51,5 см.\n\nРукав 27 см.\n\nТалия 69 см (размер в районе 2/3пуговицы).\n\nДлина по спине 86 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ...", "s": "3XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_basefield_orig_3xl4748_8246761080", "ph": ["img/8246761080_1.jpg", "img/8246761080_2.jpg"]}, {"id": 7926777979, "n": "Рубашка мужская Burton Menswear London L", "p": 1250, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой Cmcнатуральные Размеры На Фото! И описании пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Burton Menswear London оригинал размер L состояние рубашки ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_burton_menswear_london_l_7926777979", "ph": ["img/7926777979_1.jpg", "img/7926777979_2.jpg"]}, {"id": 8118158699, "n": "Рубашка мужская Cavallo ориг L(41)", "p": 1250, "d": "Перед покупкой Cmc Cavallo.\n\nПрямой силуэт.\n\nВ груди 61 см.\n\nПлечи 54 см.\n\nРукав 62 см.\n\nТалия 61,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_cavallo_orig_l41_8118158699", "ph": ["img/8118158699_1.jpg", "img/8118158699_2.jpg"]}, {"id": 8390924227, "n": "Рубашка мужская Cedar Wood State ори M(39)", "p": 800, "d": "Перед покупкой Cmc Cedar Wood State.\n\nПриталенный силуэт.\n\nВ груди 56,5 см.\n\nПлечи 45 см.\n\nРукав 62,5 см.\n\nТалия 52 см (размер в районе 2/3пуговицы).\n\nДлина по спине 78 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc От...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_cedar_wood_state_ori_m39_8390924227", "ph": ["img/8390924227_1.jpg", "img/8390924227_2.jpg"]}, {"id": 8458761432, "n": "Рубашка мужская Charles Tyrwhitt оригинал XL(44)", "p": 1650, "d": "Перед покупкой Cmc Charles Tyrwhitt.\n\nПриталенный слегка силуэт.\n\nВ груди 67 см.\n\nПлечи 54 см.\n\nРукав 60 см.\n\nТалия 66 см (размер в районе 2/3пуговицы).\n\nДлина по спине 88 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_charles_tyrwhitt_original_xl44_8458761432", "ph": ["img/8458761432_1.jpg", "img/8458761432_2.jpg"]}, {"id": 8369585037, "n": "Рубашка мужская Clockhouse C&A оригинал L(41/42)", "p": 900, "d": "Перед покупкой Cmc Clockhouse C&A.\n\nПриталенный силуэт.\n\nВоротник 41-42cm.\n\nВ груди 57 см.\n\nПлечи 45 см.\n\nРукав 67 см.\n\nТалия 52,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 78,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Пере...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_clockhouse_ca_original_l4142_8369585037", "ph": ["img/8369585037_1.jpg", "img/8369585037_2.jpg"]}, {"id": 8246760415, "n": "Рубашка мужская Eterna ориг L(41)", "p": 1350, "d": "Перед покупкой Cmc Eterna.\n\nПриталенный силуэт.\n\nВ груди 59,5 см.\n\nПлечи 49 см.\n\nРукав 26 см.\n\nТалия 57 см (размер в районе 2/3пуговицы).\n\nДлина по спине 79,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_eterna_orig_l41_8246760415", "ph": ["img/8246760415_1.jpg", "img/8246760415_2.jpg"]}, {"id": 8341751198, "n": "Рубашка мужская Eterna оригинал 2XL(46)", "p": 1650, "d": "Перед покупкой Cmc Eterna.\n\nПриталенный силуэт.\n\nВ груди 68 см.\n\nПлечи 54 см.\n\nРукав 65,5 см.\n\nТалия 65 см (размер в районе 2/3пуговицы).\n\nДлина по спине 84 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Пи...", "s": "2XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_eterna_original_2xl46_8341751198", "ph": ["img/8341751198_1.jpg", "img/8341751198_2.jpg"]}, {"id": 8182201064, "n": "Рубашка мужская Identic ориг 2XL(47)", "p": 1250, "d": "Перед покупкой Cmc Identic.\n\nПриталенный силуэт.\n\nВ груди 67,5 см.\n\nПлечи 51 см.\n\nРукав 67,5 см.\n\nТалия 66,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузк...", "s": "2XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_identic_orig_2xl47_8182201064", "ph": ["img/8182201064_1.jpg", "img/8182201064_2.jpg"]}, {"id": 7766400629, "n": "Рубашка мужская Jack&Jones ориг L/XL(45,5)", "p": 1350, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Jack&Jones оригинал размер L/XL состояние рубашки мужской ...", "s": "L/XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_jackjones_orig_lxl455_7766400629", "ph": ["img/7766400629_1.jpg", "img/7766400629_2.jpg"]}, {"id": 8182554093, "n": "Рубашка мужская Jean Pascale ориг XL", "p": 1250, "d": "Перед покупкой Cmc Jean Pascale.\n\nПриталенный силуэт.\n\nВ груди 60 см.\n\nПлечи 49 см.\n\nРукав 68 см.\n\nТалия 59 см (размер в районе 2/3пуговицы).\n\nДлина по спине 78,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_jean_pascale_orig_xl_8182554093", "ph": ["img/8182554093_1.jpg", "img/8182554093_2.jpg"]}, {"id": 8022611825, "n": "Рубашка мужская John Devin ориг L(44/45)", "p": 1000, "d": "Перед покупкой Cmc.\n\nПриталенный силуэт.\n\nВ груди 59 см.\n\nПлечи 51,5 см.\n\nРукав 67 см.\n\nТалия 51 см (размер в районе 2/3пуговицы).\n\nДлина по спине.\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера! Натуральные Размеры На Фото! И опи...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_john_devin_orig_l4445_8022611825", "ph": ["img/8022611825_1.jpg", "img/8022611825_2.jpg"]}, {"id": 8246605430, "n": "Рубашка мужская Jules ориг M/L(41/42)", "p": 1200, "d": "Перед покупкой Cmc Jules.\n\nПриталенный силуэт.\n\nВ груди 54 см.\n\nПлечи 46 см.\n\nРукав 65,5 см.\n\nТалия 50,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 76 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ П...", "s": "M/L", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_jules_orig_ml4142_8246605430", "ph": ["img/8246605430_1.jpg", "img/8246605430_2.jpg"]}, {"id": 8086354874, "n": "Рубашка мужская Leonardo (Jupiter) ориг M(39/40)", "p": 1000, "d": "Перед покупкой Cmc.\n\nПриталенный силуэт.\n\nВ груди 57 см.\n\nПлечи 49 см.\n\nРукав 63,5см.\n\nТалия 55,5 см (размер в районе 2/пуговицы).\n\nДлина по спине 79 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера! Н...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_leonardo_jupiter_orig_m3940_8086354874", "ph": ["img/8086354874_1.jpg", "img/8086354874_2.jpg"]}, {"id": 8342434062, "n": "Рубашка мужская Lerros ориг L(42/43)", "p": 1350, "d": "Перед покупкой Cmc Lerros.\n\nПриталенный силуэт.\n\nВ груди 58 см.\n\nПлечи 46 см.\n\nРукав 67,5 см.\n\nТалия 53,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 78 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_lerros_orig_l4243_8342434062", "ph": ["img/8342434062_1.jpg", "img/8342434062_2.jpg"]}, {"id": 7958530460, "n": "Рубашка мужская Livergy ориг L/XL(42/43)", "p": 1200, "d": "— Перед покупкой Cmc.\n\n— Приталенный силуэт.\n— В груди 59,5 см.\n— Плечи 48,5 см.\n— Рукав 66 см.\n— Талия 57 см (размер в районе 2/3пуговицы).\n— Длина по спине 78,5 см ( от места пришива ворота).\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ...", "s": "L/XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_livergy_orig_lxl4243_7958530460", "ph": ["img/7958530460_1.jpg", "img/7958530460_2.jpg"]}, {"id": 8341833263, "n": "Рубашка мужская Mansfield оригинал M/L(40/41)", "p": 850, "d": "Перед покупкой Cmc Mansfield.\n\nПриталенный силуэт.\n\nВ груди 64 см.\n\nПлечи 53 см.\n\nРукав 65,5 см.\n\nТалия 61 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ...", "s": "M/L", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_mansfield_original_ml4041_8341833263", "ph": ["img/8341833263_1.jpg", "img/8341833263_2.jpg"]}, {"id": 8117962731, "n": "Рубашка мужская Marvelis(Olymp) выс.рост L(42)", "p": 1550, "d": "Перед покупкой Cmc Marvelis(Olymp).\n\nПриталенный силуэт.\n\nВ груди 61 см.\n\nПлечи 49 см.\n\nРукав 69,5 см.\n\nТалия 56,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 84,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc О...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_marvelisolymp_vys.rost_l42_8117962731", "ph": ["img/8117962731_1.jpg", "img/8117962731_2.jpg"]}, {"id": 8118549805, "n": "Рубашка мужская Marvelis(Olymp) ориг M(40)", "p": 1250, "d": "Перед покупкой Cmc Marvelis(Olymp).\n\nПриталенный силуэт.\n\nВ груди 59 см.\n\nПлечи 48,5 см.\n\nРукав 65 см.\n\nТалия 53 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отг...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_marvelisolymp_orig_m40_8118549805", "ph": ["img/8118549805_1.jpg", "img/8118549805_2.jpg"]}, {"id": 8408843122, "n": "Рубашка мужская Mauro Ferrini оригинал XL(46)", "p": 1000, "d": "Перед покупкой Cmc Mauro Ferrini.\n\nПриталенный силуэт.\n\nВ груди 63 см.\n\nПлечи 54 см.\n\nРукав 68 см.\n\nТалия 61 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_mauro_ferrini_original_xl46_8408843122", "ph": ["img/8408843122_1.jpg", "img/8408843122_2.jpg"]}, {"id": 7702631819, "n": "Рубашка мужская No Excess оригинал L", "p": 1650, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская No Excess оригинал размер L состояние рубашки мужской очен...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_no_excess_original_l_7702631819", "ph": ["img/7702631819_1.jpg", "img/7702631819_2.jpg"]}, {"id": 8278418176, "n": "Рубашка мужская Nobel League ориг M(39/40)", "p": 1200, "d": "Перед покупкой Cmc Nobel League.\n\nПриталенный силуэт.\n\nВ груди 55,5 см.\n\nПлечи 46 см.\n\nРукав 65 см.\n\nТалия 50,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 78,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгр...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_nobel_league_orig_m3940_8278418176", "ph": ["img/8278418176_1.jpg", "img/8278418176_2.jpg"]}, {"id": 8342635745, "n": "Рубашка мужская Olymp ориг 2XL(45/46)", "p": 1550, "d": "Перед покупкой Cmc Olymp.\n\nПриталенный силуэт.\n\nВ груди 66 см.\n\nПлечи 48,5 см.\n\nРукав 67 см.\n\nТалия 60 см (размер в районе 2/3пуговицы).\n\nДлина по спине 80,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ П...", "s": "2XL", "b": "2XL+", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_orig_2xl4546_8342635745", "ph": ["img/8342635745_1.jpg", "img/8342635745_2.jpg"]}, {"id": 8086739096, "n": "Рубашка мужская Olymp ориг L(42)", "p": 1650, "d": "Перед покупкой Cmc.\n\nПриталенный силуэт.\n\nВ груди 65 см.\n\nПлечи 51,5 см.\n\nРукав 65 см.\n\nТалия 62 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера! На...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_orig_l42_8086739096", "ph": ["img/8086739096_1.jpg", "img/8086739096_2.jpg"]}, {"id": 8246472733, "n": "Рубашка мужская Olymp ориг L(42)", "p": 1850, "d": "Перед покупкой Cmc Olymp.\n\n! Цвет темнее как на фото 2,3!\n\nПриталенный силуэт.\n\nВ груди 57 см.\n\nПлечи 45 см.\n\nРукав 67 см.\n\nТалия 51 см (размер в районе 2/3пуговицы).\n\nДлина по спине 80 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Пере...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_orig_l42_8246472733", "ph": ["img/8246472733_1.jpg", "img/8246472733_2.jpg"]}, {"id": 8278791230, "n": "Рубашка мужская Olymp ориг XL(44)", "p": 1200, "d": "Перед покупкой Cmc Olymp.\n\nПрямой силуэт.\n\nВ груди 66 см.\n\nПлечи 48 см.\n\nРукав 64 см.\n\nТалия 67 см (размер в районе 2/3пуговицы).\n\nДлина по спине 84,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера! ...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_orig_xl44_8278791230", "ph": ["img/8278791230_1.jpg", "img/8278791230_2.jpg"]}, {"id": 8513227570, "n": "Рубашка мужская Olymp оригинал L(41)", "p": 1250, "d": "Перед покупкой Cmc Olymp.\n\nПриталенный силуэт.\n\nВ груди 62 см.\n\nПлечи 49 см.\n\nРукав 63,5 см.\n\nТалия 59,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_original_l41_8513227570", "ph": ["img/8513227570_1.jpg", "img/8513227570_2.jpg"]}, {"id": 8449242792, "n": "Рубашка мужская Olymp оригинал M(39/40)", "p": 1350, "d": "Перед покупкой Cmc Olymp.\n\nПриталенный силуэт.\n\nВ груди 56 см.\n\nПлечи 43,5 см.\n\nРукав 67 см.\n\nТалия 50,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_olymp_original_m3940_8449242792", "ph": ["img/8449242792_1.jpg", "img/8449242792_2.jpg"]}, {"id": 7894611134, "n": "Рубашка мужская Reward NKD ориг XL(45/46)", "p": 900, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой Cmcнатуральные Размеры На Фото! И описании пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Reward Nkd оригинал размер XL состояние рубашки мужской оче...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_reward_nkd_orig_xl4546_7894611134", "ph": ["img/7894611134_1.jpg", "img/7894611134_2.jpg"]}, {"id": 7926499727, "n": "Рубашка мужская Scotch&Soda ориг M/L(41/42)", "p": 1000, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой Cmcнатуральные Размеры На Фото! И описании пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\n! длинный рукав!\n\nРубашка мужская Scotch&Soda оригинал размер M/L состояние...", "s": "M/L", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_scotchsoda_orig_ml4142_7926499727", "ph": ["img/7926499727_1.jpg", "img/7926499727_2.jpg"]}, {"id": 8375326743, "n": "Рубашка мужская Seidensticker ориг XL(43)", "p": 1450, "d": "Перед покупкой Cmc Seidensticker.\n\nПриталенный силуэт.\n\nВ груди 64 см.\n\nПлечи 49,5 см.\n\nРукав 68 см.\n\nТалия 57,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 79,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отг...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_seidensticker_orig_xl43_8375326743", "ph": ["img/8375326743_1.jpg", "img/8375326743_2.jpg"]}, {"id": 8342195404, "n": "Рубашка мужская Squadra ориг L(42/43)", "p": 1000, "d": "Перед покупкой Cmc Squadra.\n\nПриталенный силуэт.\n\nВ груди 56,5 см.\n\nПлечи 46,5 см.\n\nРукав 67 см.\n\nТалия 52,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 76 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_squadra_orig_l4243_8342195404", "ph": ["img/8342195404_1.jpg", "img/8342195404_2.jpg"]}, {"id": 8181942351, "n": "Рубашка мужская State of Art ориг L(42)", "p": 1450, "d": "Перед покупкой Cmc State of Art.\n\nПриталенный силуэт.\n\nВ груди 57,5 см.\n\nПлечи 49,5 см.\n\nРукав 25 см.\n\nТалия 56 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгруз...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_state_of_art_orig_l42_8181942351", "ph": ["img/8181942351_1.jpg", "img/8181942351_2.jpg"]}, {"id": 7670549029, "n": "Рубашка мужская Stattmann оригинал XL/2XL(43)", "p": 1000, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Stattmann оригинал размер XL/2XL состояние рубашки мужской...", "s": "XL/2XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_stattmann_original_xl2xl43_7670549029", "ph": ["img/7670549029_1.jpg", "img/7670549029_2.jpg"]}, {"id": 8246296169, "n": "Рубашка мужская Tailor&Son ориг M(39/40)", "p": 1000, "d": "Перед покупкой Cmc Tailor&Son.\n\nПриталенный силуэт.\n\nВ груди 60,5 см.\n\nПлечи 48 см.\n\nРукав 65 см.\n\nТалия 54,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_tailorson_orig_m3940_8246296169", "ph": ["img/8246296169_1.jpg", "img/8246296169_2.jpg"]}, {"id": 7958529867, "n": "Рубашка мужская Taylor&Wright ориг M (39)", "p": 900, "d": "Перед покупкой Cmc.\n— в груди 54 см.\n— Плечи 47 см.\n— Рукав 65 см.\n— Талия 52,5 см (размер в районе 2/3пуговицы).\n— Длина по спине 78,5 см ( от места пришива ворота) Интернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ Питера! Натуральные Разме...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_muzhskaya_taylorwright_orig_m_39_7958529867", "ph": ["img/7958529867_1.jpg", "img/7958529867_2.jpg"]}, {"id": 8054770850, "n": "Рубашка новая мужская Daniel Hechter ориг L (44)", "p": 2500, "d": "Перед покупкой Cmc.\n\n! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 59 см.\n\nПлечи 49 см.\n\nРукав 63,5 см.\n\nТалия 56,5 см (размер в районе 2/пуговицы).\n\nДлина по спине 79 см (от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузк...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_muzhskaya_daniel_hechter_orig_l_44_8054770850", "ph": ["img/8054770850_1.jpg", "img/8054770850_2.jpg"]}, {"id": 7446066048, "n": "Рубашка новая мужская Jack&Jones оригинал S/M", "p": 2100, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\nРубашка мужская Jack&Jones оригинал размер S/M состояние рубашки мужской н...", "s": "S/M", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_muzhskaya_jackjones_original_sm_7446066048", "ph": ["img/7446066048_1.jpg"]}, {"id": 8118659150, "n": "Рубашка новая мужская Nobel League ориг L(41)", "p": 2000, "d": "Перед покупкой Cmc.\n\nПриталенный силуэт Nobel League.\n\nВ груди 60 см.\n\nПлечи 49 см.\n\nРукав 65 см.\n\nТалия 53,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_muzhskaya_nobel_league_orig_l41_8118659150", "ph": ["img/8118659150_1.jpg", "img/8118659150_2.jpg"]}, {"id": 8341940924, "n": "Рубашка новая мужская Nobel League ориг M(39)", "p": 2000, "d": "Перед покупкой Cmc Nobel League.\n\nПриталенный силуэт.\n\nВ груди 57 см.\n\nПлечи 47 см.\n\nРукав 67 см.\n\nТалия 50,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 80,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгруз...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_muzhskaya_nobel_league_orig_m39_8341940924", "ph": ["img/8341940924_1.jpg", "img/8341940924_2.jpg"]}, {"id": 8086372076, "n": "Рубашка новая мужская Olymp ориг М (40)", "p": 2200, "d": "Перед покупкой Cmc.\n\n! бирок нет!\n\nПриталенный силуэт.\n\nВ груди 54,5 см.\n\nПлечи 43,5 см.\n\nРукав 67 см.\n\nТалия 49 см (размер в районе 2/пуговицы).\n\nДлина по спине 79 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгруз...", "s": "", "b": "без размера", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_muzhskaya_olymp_orig_m_40_8086372076", "ph": ["img/8086372076_1.jpg", "img/8086372076_2.jpg"]}, {"id": 7606785495, "n": "Рубашка новая сток мужская J.Crew оригинал М(40)", "p": 1550, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\n! Бирок нет!\n\nМужская J. Crew оригинал размер М состояние рубашки мужской ...", "s": "", "b": "без размера", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_stok_muzhskaya_j.crew_original_m40_7606785495", "ph": ["img/7606785495_1.jpg", "img/7606785495_2.jpg"]}, {"id": 7894076404, "n": "Рубашка новая фланель мужская Vinson Camp L", "p": 2000, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой Cmcнатуральные Размеры На Фото! И описании пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\n! Бирок нет! Легкая фланель тактильно мягкая!\n\nРубашка мужская Vinson Camp ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_novaya_flanel_muzhskaya_vinson_camp_l_7894076404", "ph": ["img/7894076404_1.jpg", "img/7894076404_2.jpg"]}, {"id": 8150248748, "n": "Рубашка офис мужская Olymp(Marvelis) ориг XL(44)", "p": 1650, "d": "Перед покупкой Cmc Olymp.\n\nПриталенный силуэт.\n\nВ груди 65,5 см.\n\nПлечи 52 см.\n\nРукав 64,5 см.\n\nТалия 60,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгрузка ИЗ...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_ofis_muzhskaya_olympmarvelis_orig_xl44_8150248748", "ph": ["img/8150248748_1.jpg", "img/8150248748_2.jpg"]}, {"id": 8388254206, "n": "Рубашка сток лён 100% мужская Corsare L/XL(42/43)", "p": 2600, "d": "Перед покупкой Cmc Corsare.\n\n! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 60 см.\n\nПлечи 52,5 см.\n\nРукав 67,5 см.\n\nТалия 58 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой C...", "s": "L/XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_len_100_muzhskaya_corsare_lxl4243_8388254206", "ph": ["img/8388254206_1.jpg", "img/8388254206_2.jpg"]}, {"id": 8449166097, "n": "Рубашка сток мужская J.Crew ориг M/L(43)", "p": 1550, "d": "Перед покупкой Cmc J. Crew! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 58 см.\n\nПлечи 47,5 см.\n\nРукав 67 см.\n\nТалия 55 см (размер в районе 2/3пуговицы).\n\nДлина по спине 70 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc От...", "s": "M/L", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_j.crew_orig_ml43_8449166097", "ph": ["img/8449166097_1.jpg", "img/8449166097_2.jpg"]}, {"id": 8342650746, "n": "Рубашка сток мужская Nobel League ориг L(41)", "p": 1850, "d": "Перед покупкой Cmc Nobel League! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 60,5 см.\n\nПлечи 48,5 см.\n\nРукав 67,5 см.\n\nТалия 55,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 82,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед по...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_nobel_league_orig_l41_8342650746", "ph": ["img/8342650746_1.jpg", "img/8342650746_2.jpg"]}, {"id": 8150801813, "n": "Рубашка сток мужская Nobel League ориг L(41/42)", "p": 1850, "d": "Перед покупкой cmcnobel League! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 64 см.\n\nПлечи 51 см.\n\nРукав 65,5 см.\n\nТалия 60 см (размер в районе 2/3пуговицы).\n\nДлина по спине 83,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_nobel_league_orig_l4142_8150801813", "ph": ["img/8150801813_1.jpg", "img/8150801813_2.jpg"]}, {"id": 8181994471, "n": "Рубашка сток мужская Nobel League ориг L(41/42)", "p": 1650, "d": "Перед покупкой Cmc! Nobel League! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 62 см.\n\nПлечи 48 см.\n\nРукав 66 см.\n\nТалия 59,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой ...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_nobel_league_orig_l4142_8181994471", "ph": ["img/8181994471_1.jpg", "img/8181994471_2.jpg"]}, {"id": 8278774818, "n": "Рубашка сток мужская Nobel League ориг XL(43)", "p": 1850, "d": "Перед покупкой Cmc Nobel League! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 66,5 см.\n\nПлечи 53 см.\n\nРукав 65,5 см.\n\nТалия 63 см (размер в районе 2/3пуговицы).\n\nДлина по спине 84 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_nobel_league_orig_xl43_8278774818", "ph": ["img/8278774818_1.jpg", "img/8278774818_2.jpg"]}, {"id": 8022538792, "n": "Рубашка сток мужская OS Trachten ориг XL(43/44)", "p": 1450, "d": "Перед покупкой Cmc.\n\n! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 65 см.\n\nПлечи 51,5 см.\n\nРукав 66 см.\n\nТалия 63 см (размер в районе 2/3пуговицы).\n\nДлина по спине 81,5 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc Отгру...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_os_trachten_orig_xl4344_8022538792", "ph": ["img/8022538792_1.jpg", "img/8022538792_2.jpg"]}, {"id": 8246716253, "n": "Рубашка сток мужская Primark ориг M", "p": 1550, "d": "Перед покупкой Cmc Primark!\n\n! Бирок нет!\n\nПриталенный силуэт.\n\nВ груди 57,5 см.\n\nПлечи 50 см.\n\nРукав 24 см.\n\nТалия 55 см (размер в районе 2/3пуговицы).\n\nДлина по спине 76 см ( от места пришива ворота).\n\nИнтернет Магазин! Заходите! Перед покупкой Cmc...", "s": "M", "b": "M", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_muzhskaya_primark_orig_m_8246716253", "ph": ["img/8246716253_1.jpg", "img/8246716253_2.jpg"]}, {"id": 7766914379, "n": "Рубашка сток новая мужская Cotton&Silk L(41/42)", "p": 1650, "d": "Интернет Магазин! Заходите! Отгрузка ИЗ Питера! Переоформление! Перед покупкой смс Натуральные Размеры На Фото!\n\nОтправим! Пунктавито, Сдэк, Почта, Dpd, Яндекс,5 Post, Xalva.\n\n! Бирок нет!\n\nРубашка мужская Cotton&Silk оригинал размер L состояние руба...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_stok_novaya_muzhskaya_cottonsilk_l4142_7766914379", "ph": ["img/7766914379_1.jpg", "img/7766914379_2.jpg"]}, {"id": 8408269851, "n": "Рубашка фланель мужская C&A Buying L/XL(42/43)", "p": 800, "d": "Перед покупкой Cmc C&A Buying.\n\nПриталенный силуэт.\n\nВоротник 42-43cm.\n\nВ груди 62 см.\n\nПлечи 58,5 см.\n\nРукав 65 см.\n\nТалия 58,5 см (размер в районе 2/3пуговицы).\n\nДлина по спине 71 см ( от места пришива ворота)укороченная!\n\nИнтернет Магазин! Заходит...", "s": "L/XL", "b": "составной", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_flanel_muzhskaya_ca_buying_lxl4243_8408269851", "ph": ["img/8408269851_1.jpg", "img/8408269851_2.jpg"]}, {"id": 8408238980, "n": "Рубашка фланель мужская Identic оригинал XL(47)", "p": 1200, "d": "Перед покупкой Cmc Identic! Цвет как 2,3фото!\n\nПриталенный силуэт.\n\nВоротник 47см свободный.\n\nВ груди 66 см.\n\nПлечи 50 см.\n\nРукав 67,5 см.\n\nТалия 64 см (размер в районе 2/3пуговицы).\n\nДлина по спине 79,5 см ( от места пришива ворота).\n\nИнтернет Магаз...", "s": "XL", "b": "XL", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/rubashka_flanel_muzhskaya_identic_original_xl47_8408238980", "ph": ["img/8408238980_1.jpg", "img/8408238980_2.jpg"]}, {"id": 8342253354, "n": "Чиносы брюки мужские Only&Sons ориг W36/32", "p": 1450, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление!\n\nОтправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\n! Тянется!\n\nЧиносы брюки мужские Only&Sons оригинал размер W36/32 состояние очень хорошее, строчки ...", "s": "W36", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/chinosy_bryuki_muzhskie_onlysons_orig_w3632_8342253354", "ph": ["img/8342253354_1.jpg", "img/8342253354_2.jpg"]}, {"id": 7574102234, "n": "Чиносы теплые мужские Tom Tailor оригинал W32/32", "p": 1650, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление!\n\nExmail и, авито партнер, Не отправляем!\n\nОтправляем! Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nЧиносы брюки мужские Tom Tailor оригинал размер W32/32 состояние оче...", "s": "W32", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/chinosy_teplye_muzhskie_tom_tailor_original_w3232_7574102234", "ph": ["img/7574102234_1.jpg", "img/7574102234_2.jpg"]}, {"id": 8150817110, "n": "Шорты пляжные мужские Crivit ориг 6/L", "p": 1350, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Отправляем! Пункт А, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\nШорты мужские Crivit оригинал размер L/XL состояние отличное, строчки и швы в ровные и качественные.\n...", "s": "L", "b": "L", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/shorty_plyazhnye_muzhskie_crivit_orig_6l_8150817110", "ph": ["img/8150817110_1.jpg", "img/8150817110_2.jpg"]}, {"id": 8246242666, "n": "Шорты сток для плавания Lefties ориг W32(M)", "p": 1350, "d": "Оригинальные Размеры На Фото! Интернет Магазин В Питере! Заходите! Переоформление! Отправляем! Пункт Ав, Почта, боксберри, сдэк, Dpd, 5post, яндекс!\n\n! Бирок нет!\n\nШорты мужские Lefties оригинал размер M состояние новые, строчки и швы в ровные и каче...", "s": "W32", "b": "брюки W", "u": "https://www.avito.ru/sankt-peterburg/odezhda_obuv_aksessuary/shorty_stok_dlya_plavaniya_lefties_orig_w32m_8246242666", "ph": ["img/8246242666_1.jpg", "img/8246242666_2.jpg"]}];
+const SELLER = "https://www.avito.ru/brands/i184702425";
+let f = {q:"", b:"", sort:"name"};
+let catScroll = 0;
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const $ = s => document.querySelector(s);
+const grid = $("#grid"), cat = $("#cat"), det = $("#det"), cnt = $("#cnt");
+
+function money(n){ return n == null ? "цена по запросу"
+  : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0") + "\u00a0\u20bd"; }
+
+function list(){
+  let r = G.filter(g => {
+    if (f.b && g.b !== f.b) return false;
+    if (f.q && !(g.n + " " + g.d).toLowerCase().includes(f.q)) return false;
+    return true;
+  });
+  if (f.sort === "asc") r.sort((a,b) => (a.p??0) - (b.p??0));
+  else if (f.sort === "desc") r.sort((a,b) => (b.p??0) - (a.p??0));
+  else r.sort((a,b) => a.n.localeCompare(b.n, "ru"));
+  return r;
+}
+
+function draw(){
+  const r = list();
+  cnt.textContent = r.length ? (r.length + " " + plural(r.length)) : "";
+  grid.innerHTML = r.length ? "" : '<p class="empty">Ничего не нашлось. Попробуйте другой запрос.</p>';
+  r.forEach(g => {
+    const b = document.createElement("button");
+    b.className = "card"; b.type = "button";
+    b.innerHTML = '<div class="card__ph"><img src="' + g.ph[0] + '" alt="" loading="lazy"></div>'
+      + '<div class="card__b"><div class="card__n"></div><div class="card__r">'
+      + '<span class="price"></span>' + (g.s ? '<span class="size"></span>' : '') + '</div></div>';
+    b.querySelector(".card__n").textContent = g.n;
+    b.querySelector(".price").textContent = money(g.p);
+    if (g.s) b.querySelector(".size").textContent = g.s;
+    b.addEventListener("click", () => openItem(g));
+    grid.appendChild(b);
+  });
+}
+
+function plural(n){
+  const a = n % 10, b = n % 100;
+  if (a === 1 && b !== 11) return "товар";
+  if (a >= 2 && a <= 4 && (b < 10 || b >= 20)) return "товара";
+  return "товаров";
+}
+
+function openItem(g, push){
+  if (push === undefined) push = true;
+  $("#dh").textContent = g.n;
+  $("#dprice").textContent = money(g.p);
+  $("#dtext").textContent = g.d || "Описание не указано.";
+  $("#dorig").href = g.u;
+  $("#dcta").href = SELLER;
+  const meta = $("#dmeta"); meta.innerHTML = "";
+  if (g.s){ const e = document.createElement("span"); e.className = "size";
+            e.textContent = "размер " + g.s; meta.appendChild(e); }
+  const e2 = document.createElement("span"); e2.className = "size";
+  e2.textContent = "артикул " + g.id; meta.appendChild(e2);
+
+  const main = $("#dmain"), row = $("#drow");
+  main.src = g.ph[0]; row.innerHTML = "";
+  if (g.ph.length > 1) g.ph.forEach((p, i) => {
+    const t = document.createElement("button");
+    t.className = "gal__t"; t.type = "button";
+    t.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+    t.innerHTML = '<img src="' + p + '" alt="">';
+    t.addEventListener("click", () => {
+      main.src = p;
+      row.querySelectorAll(".gal__t").forEach(x => x.setAttribute("aria-pressed","false"));
+      t.setAttribute("aria-pressed","true");
+    });
+    row.appendChild(t);
+  });
+  if (!cat.hidden) catScroll = window.scrollY;
+  cat.hidden = true; det.hidden = false;
+  window.scrollTo(0, 0);
+  if (push) history.pushState({item: g.id}, "", "#t" + g.id);
+}
+
+function showCatalog(){
+  det.hidden = true; cat.hidden = false;
+  // браузер обнуляет прокрутку уже после наших вызовов, поэтому повторяем
+  const y = catScroll, restore = () => window.scrollTo(0, y);
+  restore();
+  requestAnimationFrame(restore);
+  setTimeout(restore, 50);
+  setTimeout(restore, 150);
+}
+
+$("#back").addEventListener("click", () => history.back());
+
+window.addEventListener("popstate", e => {
+  const id = e.state && e.state.item;
+  if (id){ const g = G.find(x => x.id === id); if (g){ openItem(g, false); return; } }
+  showCatalog();
+});
+
+// прямая ссылка на товар: #t<артикул>
+(function(){
+  const m = location.hash.match(/^#t([0-9]+)/);
+  if (!m) return;
+  const g = G.find(x => String(x.id) === m[1]);
+  if (!g) return;
+  history.replaceState({}, "", location.pathname + location.search);
+  openItem(g, true);
+})();
+$("#q").addEventListener("input", e => { f.q = e.target.value.trim().toLowerCase(); draw(); });
+$("#sort").addEventListener("change", e => { f.sort = e.target.value; draw(); });
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  const v = c.dataset.b;
+  f.b = (f.b === v) ? "" : v;
+  document.querySelectorAll(".chip").forEach(x =>
+    x.setAttribute("aria-pressed", x.dataset.b === f.b ? "true" : "false"));
+  draw();
+}));
+draw();
+</script>
+
+</body>
+</html>
